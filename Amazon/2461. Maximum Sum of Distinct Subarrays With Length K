@@ -1,0 +1,24 @@
+class Solution {
+    public long maximumSubarraySum(int[] nums, int k) {
+        int left=0,right=0;
+        int sum = Integer.MIN_VALUE;
+        int maxSum = 0;
+        Set<Integer> set = new HashSet<>();
+        while(right<nums.length){
+             while(set.contains(nums[right]) || set.size() >= k){
+// if duplicate exists or the window is full , the new element can't be added to the window
+                  sum -= nums[left];
+                  set.remove(nums[left]);
+                  left++;
+             }
+               
+            set.add(nums[right]);
+            sum+=nums[right];
+            if(right-left+1 == k){
+                maxSum = Math.max(sum, maxSum);
+            }
+            right++;
+        }
+        return maxSum;
+    }
+}
