@@ -1,0 +1,36 @@
+class Solution {
+    long ans = 0;
+    boolean isPalindrome(StringBuilder str) {
+        int s = 0, e = str.length() - 1;
+        while (s < e) {
+            if (str.charAt(s) != str.charAt(e))
+                return false;
+            s++;
+            e--;
+        }
+        return true;
+    }
+     
+    void helper(String s, int idx, StringBuilder s1, StringBuilder s2){
+        if(isPalindrome(s1) && isPalindrome(s2)){
+            ans = Math.max(ans, (int)(s1.length()*s2.length()));
+        }
+
+        for(int i=idx;i<s.length();i++){
+            s1.append(s.charAt(i));
+            helper(s,i+1,s1,s2);
+            s1.deleteCharAt(s1.length()-1);
+
+            s2.append(s.charAt(i));
+            helper(s,i+1,s1,s2);
+            s2.deleteCharAt(s2.length()-1);
+        }
+        return ;
+    }
+    public int maxProduct(String s) {
+          StringBuilder s1 = new StringBuilder("");
+          StringBuilder s2 = new StringBuilder("");
+          helper(s,0,s1,s2);
+          return (int)ans;
+    }
+}
