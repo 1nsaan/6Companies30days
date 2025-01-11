@@ -1,0 +1,27 @@
+class Solution {
+    public int[] maxSubsequence(int[] nums, int k) {
+        int ans[] = new int[k];
+        int idx[] = new int[k];
+
+        int n = nums.length, j = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+
+        for (int i = 0; i < n; i++) {
+            pq.offer(new int[] { nums[i], i });
+        }
+
+        PriorityQueue<int[]> minMaxHeap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+
+        for (int i = 0; i < k; i++) {
+            minMaxHeap.offer(pq.poll());
+        }
+
+        int[] res = new int[k];
+        int index = 0;
+        while (!minMaxHeap.isEmpty()) {
+            res[index++] = minMaxHeap.poll()[0];
+        }
+        return res;
+
+    }
+}
