@@ -1,0 +1,26 @@
+class Solution {
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        Map<List<Integer>,Integer> map = new HashMap();
+        return solve(price,special,needs, map);
+    }
+
+    public int solve(List<Integer> price, List<List<Integer>> special, List<Integer> needs, Map<List<Integer>, Integer> map){
+        if(map.containsKey(needs)) return map.get(needs);
+        int j=0, res=0;
+        for(int i=0;i<price.size();i++){
+            res+= (price.get(i) * needs.get(i));
+        }
+        for(List<Integer> s : special){
+             ArrayList<Integer> clone = new ArrayList<>(needs);
+            for(j=0;j<needs.size();j++){
+                int diff = clone.get(j)-s.get(j);
+                if(diff<0) break;
+                clone.set(j, diff);
+            }
+            if(j==needs.size())
+                   res = Math.min(res, s.get(j) + solve(price, special, clone, map));
+        }
+        map.put(needs,res);
+        return res;
+    }
+}
